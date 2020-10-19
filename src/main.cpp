@@ -13,7 +13,7 @@ int main(){
     Ures.SetMap(0,1,'D'); */
 
     Ures.SetShip(0,0,'B','S');
-    //Ures.SetShip(0,0,'A','E');
+    Ures.SetShip(0,0,'A','E');
     //Ures.SetShip(4,4,'A','W');
     //Ures.SetShip(4,4,'A','N');
     Ures.SetShip(4,4,'D','N');
