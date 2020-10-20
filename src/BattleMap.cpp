@@ -10,17 +10,23 @@ BattleMap::BattleMap()
     this->MapHeight = 8;
     this->MapWidth = 8;
     //make Map
-    this->Map = new char *[MapHeight];
+    this->MyMap = new char *[MapHeight];
     for (int i = 0; i < MapHeight; i++)
     {
-        this->Map[i] = new char[MapWidth];
+        this->MyMap[i] = new char[MapWidth];
+    }
+    this->EnemyMap = new char *[MapHeight];
+    for (int i = 0; i < MapHeight; i++)
+    {
+        this->EnemyMap[i] = new char[MapWidth];
     }
     //ne legyen benne semmi
     for (int i = 0; i < MapHeight; i++)
     {
         for (int j = 0; j < MapWidth; j++)
         {
-            this->Map[i][j] = ' ';
+            this->EnemyMap[i][j] = ' ';
+            this->MyMap[i][j] = ' ';
         }
     }
 }
@@ -42,10 +48,16 @@ BattleMap::BattleMap(int Height, int Width)
     }
     else
         this->MapWidth = Width;
-    this->Map = new char *[MapHeight];
+    this->MyMap = new char *[MapHeight];
     for (int i = 0; i < MapHeight; i++)
     {
-        this->Map[i] = new char[MapWidth];
+        this->MyMap[i] = new char[MapWidth];
+    }
+
+    this->EnemyMap = new char *[MapHeight];
+    for (int i = 0; i < MapHeight; i++)
+    {
+        this->EnemyMap[i] = new char[MapWidth];
     }
     //ne legyen benne semmi
 
@@ -53,7 +65,8 @@ BattleMap::BattleMap(int Height, int Width)
     {
         for (int j = 0; j < MapWidth; j++)
         {
-            this->Map[i][j] = ' ';
+            this->MyMap[i][j] = ' ';
+            this->EnemyMap[i][j] = ' ';
         }
     }
 }
@@ -62,9 +75,11 @@ BattleMap::~BattleMap()
 {
     for (int i = 0; i < MapHeight; i++)
     {
-        delete[] this->Map[i];
+        delete[] this->MyMap[i];
+        delete[] this->EnemyMap[i];
     }
-    delete[] this->Map;
+    delete[] this->MyMap;
+    delete[] this->EnemyMap;
 }
 
 int BattleMap::getMapHeight()
@@ -90,16 +105,28 @@ int BattleMap::getShipLength(char ship)
     return shipLength;
 }
 
-char BattleMap::getPosition(int x, int y)
+char BattleMap::getMyPosition(int x, int y)
 {
-    return Map[x][y];
+    return MyMap[x][y];
 }
 
-void BattleMap::SetMap(int x, int y, char data)
+char BattleMap::getEnemyPosition(int x, int y)
+{
+    return MyMap[x][y];
+}
+
+void BattleMap::SetMap(int x, int y, char data, bool My)
 {
     if (CoordinateExist(x, y))
     {
-        this->Map[x][y] = data;
+        if (My)
+        {
+            this->MyMap[x][y] = data;
+        }
+        else
+        {
+            this->EnemyMap[x][y] = data;
+        }
     }
     else
     {
@@ -114,7 +141,7 @@ bool BattleMap::ShipStached(int x, int y, int length, char dir)
     while (length != 0)
     {
         //ha nem szokoz akkor egy hajo van a koordinatan
-        if (getPosition(xnew, ynew) != ' ')
+        if (getMyPosition(xnew, ynew) != ' ')
         {
             printError("A hajok egymasra kerultek es a jelenlegi hajo nem kerult beirasra");
             return true;
@@ -159,7 +186,7 @@ void BattleMap::SetShip(int x, int y, char ship, char dir)
         int ynew = y;
         while (shipLength != 0)
         {
-            SetMap(xnew,ynew,ship);
+            SetMap(xnew, ynew, ship, true);
             switch (dir)
             {
             case 'N':
@@ -236,6 +263,7 @@ bool BattleMap::CoordinateExist(int x, int y)
 
 ostream &operator<<(ostream &os, const BattleMap &what)
 {
+    cout << "My Map" << endl;
     cout << "    ";
     for (int i = 0; i < what.MapWidth; i++)
     {
@@ -250,7 +278,7 @@ ostream &operator<<(ostream &os, const BattleMap &what)
             os << i / 2 << " | ";
             for (int j = 0; j < what.MapWidth; j++)
             {
-                os << what.Map[i / 2][j] << "  | ";
+                os << what.MyMap[i / 2][j] << "  | ";
             }
             os << endl;
         }
@@ -265,9 +293,37 @@ ostream &operator<<(ostream &os, const BattleMap &what)
             os << endl;
         }
     }
-}
 
-void BattleMap::printError(string error)
-{
-    printred(error);
+    cout<<"Enemy map: "<<endl;
+
+    cout << "    ";
+    for (int i = 0; i < what.MapWidth; i++)
+    {
+        cout << i << "    ";
+    }
+    cout << endl;
+    for (int i = -1; i < what.MapHeight * 2; i++)
+    {
+        //adatsor irasa
+        if (i % 2 == 0)
+        {
+            os << i / 2 << " | ";
+            for (int j = 0; j < what.MapWidth; j++)
+            {
+                os << what.EnemyMap[i / 2][j] << "  | ";
+            }
+            os << endl;
+        }
+        //tablazat irasa
+        else
+        {
+            cout << "  ";
+            for (int j = 0; j < what.MapWidth * 5; j++)
+            {
+                os << "-";
+            }
+            os << endl;
+        }
+    }
+    return os;
 }
