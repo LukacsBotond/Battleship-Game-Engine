@@ -29,10 +29,16 @@ void printred(const string s)
     cout << s;
 #if defined(_WIN32)
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), default_colors);
-    cout<<endl;
+    cout << endl;
 #elif defined(__linux__)
-    cout << "\033[0m"<<endl; // reset color
+    cout << "\033[0m" << endl; // reset color
 #endif // Windows/Linux
+}
+
+//piros karakterekkel kiirja a megadott uzenetet
+void printError(string error)
+{
+    printred(error);
 }
 
 #endif
