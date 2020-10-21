@@ -20,7 +20,7 @@ void startGame()
     //Ures.SetShip(4,4,'A','W');
     //Ures.SetShip(4,4,'A','N');
     Ures.SetShip(4, 4, 'D', 'N');
-    //random stuff end
+    //random stuff ends
 
     cout << Ures;
 
