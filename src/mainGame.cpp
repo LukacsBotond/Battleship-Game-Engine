@@ -1,12 +1,27 @@
 #include <iostream>
 #include "BattleMap.h"
+#include "ColorChange.h"
+#include <fstream>
 
 using namespace std;
 
+//start game
 void startGame()
 {
+    //initialize settings
+    ifstream fin;
+    fin.open("settings.txt");
+    if(fin.fail()){
+        printError("Failed to read the settings file, exiting");
+        fin.close();
+        exit(0);
+    }
+    string sor;
+    //
+    getline(fin,sor);
 
-    //start game
+    
+    
 
     BattleMap Ures(8, 8);
 

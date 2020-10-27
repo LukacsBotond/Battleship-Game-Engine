@@ -9,6 +9,8 @@ void MainMenu();
 string askUser();
 void tutorial();
 void startGame();
+void printFile();
+void changeLine();
 void settings();
 
 #endif

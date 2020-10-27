@@ -1,5 +1,6 @@
 #include <iostream>
 #include "gameHeader.h"
+#include "ColorChange.h"
 
 using namespace std;
 

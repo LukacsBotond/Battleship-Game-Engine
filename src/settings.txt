@@ -1,0 +1,10 @@
+MapHeigth 6
+MapWidth 6
+NrDestroyer 1
+NrCruiser 1
+NrBattleship 1
+NrAircraftCarrier 1
+HOSTIP 127.0.0.1
+Port 54000
+AI 3
+AILevel 3
