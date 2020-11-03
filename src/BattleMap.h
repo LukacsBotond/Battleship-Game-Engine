@@ -25,7 +25,8 @@ public:
     //Cruiser = C -3 hossz
     //Battleship = B -4 hossz
     //Airship = A -5 hossz
-    void SetShip(int x, int y, char ship, char dir);
+    //True/false ha sikerul/hiba van
+    bool SetShip(int x, int y, char ship, char dir);
 
     int getMapHeight();
     int getMapWidth();
@@ -44,7 +45,11 @@ public:
     bool ShipStached(int x, int y, int length, char dir);
 
     //kiiratas
-    friend ostream &operator<<(ostream &os, const BattleMap &what);
+    //friend ostream &operator<<(ostream &os, const BattleMap &what);
+    
+    //my = true -sajat
+    //my = false -enemy
+    void printMap(bool my);
 
 private:
     //palya
