@@ -175,9 +175,6 @@ bool BattleMap::SetShip(int x, int y, char ship, char dir)
         printError("No such direction!");
         return false;
     }
-    else{
-        cout<<"DIR"<<endl;
-    }
     int shipLength = getShipLength(ship);
 
     if (shipLength == -1)
