@@ -12,18 +12,17 @@ using namespace std;
 
 void MainMenu()
 {
-    printcolor(" MAIN MENU", color_orange);
-    cout << endl;
-    printcolor("Start game (start)", color_dark_green);
-    printcolor("Settings (settings)", color_blue);
-    printcolor("Tutorial(tutorial)", color_blue);
-    printcolor("Exit (exit)", color_dark_red);
-    cout << endl
-         << endl;
-
     bool loop = true;
     while (loop)
     {
+        printcolor(" MAIN MENU", color_orange);
+        cout << endl;
+        printcolor("Start game (start)", color_dark_green);
+        printcolor("Settings (settings)", color_blue);
+        printcolor("Tutorial(tutorial)", color_blue);
+        printcolor("Exit (exit)", color_dark_red);
+        cout << endl
+             << endl;
         string command = askUser();
         if (command == "start" || command == "START" || command == "Start")
         {
@@ -87,7 +86,12 @@ float shipRatio()
     vector<string> szavak;
     //skip HOST settings
     getline(fin, sor);
-
+    szavak = splitLine(sor);
+    //Client settings, ignore the file
+    if (szavak[1] == "0")
+    {
+        return 15;
+    }
     //map settings read
     for (int i = 0; i < 6; i++)
     {
@@ -257,13 +261,13 @@ void settings()
         currentRatio = round(currentRatio);
         currentRatio /= 100;
         //10% ship or less
-        if ((reqRatio - currentRatio) < (-5))
+        if ((currentRatio - reqRatio) < (-5))
         {
             goodratio = false;
             acceptable = true;
             printcolor("Current ship ratio: " + to_string(currentRatio) + "% is to LOW, add more/bigger ships", color_yellow);
         }
-        if ((reqRatio - currentRatio) > 10)
+        if ((currentRatio - reqRatio) > 10)
         {
             goodratio = false;
             acceptable = true;
@@ -310,7 +314,7 @@ void settings()
         }
 
         //type: 2
-        cout << "\n\n\nwrite the new value for the option\n";
+        cout << "\n\nwrite the new value for the option\n";
         cin >> value;
         changeline(set, option, value);
     } while (true);

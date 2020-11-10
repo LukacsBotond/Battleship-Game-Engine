@@ -12,6 +12,9 @@ string askUser();
 void tutorial();
 void startGame();
 
+//returns the ratio to ship/ocean
+float shipRatio();
+
 //egy megadott nevu fajlt kiir kepernyore
 void printFile(string file);
 
@@ -26,5 +29,9 @@ void settings();
 //ship a megszokott D/C/B/A
 //NrShip -mennyi van abbol a hajobol
 void placeShips(BattleMap &Player, char ship, int NrShip);
+
+
+
+void MainLoop(BattleMap Player);
 
 #endif

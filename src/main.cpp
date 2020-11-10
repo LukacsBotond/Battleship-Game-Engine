@@ -6,6 +6,10 @@ using namespace std;
 
 int main(){
 
+    /*
+        INTRO
+    */
+
     MainMenu();
 
     return 0;

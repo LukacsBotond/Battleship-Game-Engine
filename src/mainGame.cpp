@@ -4,6 +4,7 @@
 #include "gameHeader.h"
 #include <fstream>
 #include <vector>
+#include <cmath>
 
 using namespace std;
 
@@ -13,6 +14,7 @@ void startGame()
 {
     //initialize settings
     ifstream fin;
+
     fin.open("settings.txt");
     if (fin.fail())
     {
@@ -46,6 +48,16 @@ void startGame()
     //beallitasokbol
     else
     {
+        float ratio = shipRatio() * 10000;
+        ratio = round(ratio);
+        ratio /= 100;
+        cout << "Currens ship ratio: " << ratio << endl;
+        if (ratio > 100 || ratio <= 0)
+        {
+            printError("Error there are no ships, or more ship that ocean");
+            printError("You will be redirected to settings to change that");
+            settings();
+        }
         while (getline(fin, sor))
         {
             szavak = splitLine(sor);
@@ -95,20 +107,53 @@ void startGame()
     //Place the Destroyers
     Player.printMap(true);
     placeShips(Player, 'D', NrDestroyer);
-    placeShips(Player, 'C', NrDestroyer);
-    placeShips(Player, 'B', NrDestroyer);
-    placeShips(Player, 'A', NrDestroyer);
+    placeShips(Player, 'C', NrCruiser);
+    placeShips(Player, 'B', NrBattleship);
+    placeShips(Player, 'A', NrAircraftCarrier);
+
+    MainLoop(Player);
+}
+
+//loop till the game ends
+void MainLoop(BattleMap Player)
+{
     /*
-    Player.SetShip(0, 0, 'B', 'S');
-    Player.SetShip(1, 1, 'A', 'E');
-    Player.SetShip(4, 4, 'D', 'N');
-    //random stuff ends
-*/
+        INSERT GAME HERE
+    */
+
+    cout << "Do you want to play again? (y/n)" << endl;
+    char choice;
+    string where;
+    cin >> choice;
+    //want to play again
+    if (choice == 'y')
+    {
+        cout << "type 'settings' to go back and change settings if you are the host" << endl;
+        cout << "type 'start' to start with the same settings"
+             << "but you need to set the ships again" << endl;
+        cin >> where;
+        if (where == "settings")
+        {
+            settings();
+        }
+        if (where == "start")
+        {
+            startGame();
+        }
+    }
+    else{//leave the game
+
+        //TODO tell the other side I left
+        
+        cout<<"GOODBYE"<<endl;
+        exit(0);
+    }
 }
 
 void placeShips(BattleMap &Player, char ship, int NrShip)
 {
-    if (NrShip == 0)
+    //there is no ships to be set
+    if (NrShip <= 0)
     {
         return;
     }

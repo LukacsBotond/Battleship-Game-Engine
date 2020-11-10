@@ -1,6 +1,6 @@
-HOST 0
+HOST 1
 MapHeigth 8
-MapWidth 8
+MapWidth 7
 NrDestroyer 1
 NrCruiser 1
 NrBattleship 1

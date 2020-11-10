@@ -99,7 +99,7 @@ int BattleMap::getShipLength(char ship)
     if (shipLength < 2 || shipLength > 5)
     {
         string errorShip(1, ship);
-        printError("Nincs inlyen jelzesu hajo a flottaban: " + errorShip);
+        printError("There is no such ship: " + errorShip);
         return -1;
     }
     return shipLength;
@@ -161,8 +161,6 @@ bool BattleMap::ShipStached(int x, int y, int length, char dir)
             ynew -= 1;
             break;
         default:
-            printError("Nincs ilyen irany");
-            return false;
             break;
         }
         length--;
@@ -172,6 +170,14 @@ bool BattleMap::ShipStached(int x, int y, int length, char dir)
 
 bool BattleMap::SetShip(int x, int y, char ship, char dir)
 {
+    if (!(dir == 'n' || dir == 'e' || dir == 's' || dir == 'w' || dir == 'N' || dir == 'E' || dir == 'S' || dir == 'W'))
+    {
+        printError("No such direction!");
+        return false;
+    }
+    else{
+        cout<<"DIR"<<endl;
+    }
     int shipLength = getShipLength(ship);
 
     if (shipLength == -1)
@@ -187,6 +193,7 @@ bool BattleMap::SetShip(int x, int y, char ship, char dir)
         while (shipLength != 0)
         {
             SetMap(xnew, ynew, ship, true);
+            this->HP++;
             switch (dir)
             {
             case 'N':
@@ -206,7 +213,8 @@ bool BattleMap::SetShip(int x, int y, char ship, char dir)
         }
         return true;
     }
-    else{
+    else
+    {
         return false;
     }
 }
