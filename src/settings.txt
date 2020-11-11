@@ -2,8 +2,8 @@ HOST 1
 MapHeigth 8
 MapWidth 7
 NrDestroyer 1
-NrCruiser 1
-NrBattleship 1
+NrCruiser 0
+NrBattleship 0
 NrAircraftCarrier 0
 HOSTIP 127.0.0.1
 Port 54000

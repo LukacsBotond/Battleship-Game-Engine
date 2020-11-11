@@ -110,16 +110,27 @@ void startGame()
     placeShips(Player, 'C', NrCruiser);
     placeShips(Player, 'B', NrBattleship);
     placeShips(Player, 'A', NrAircraftCarrier);
-
     MainLoop(Player);
 }
 
 //loop till the game ends
 void MainLoop(BattleMap Player)
 {
-    /*
-        INSERT GAME HERE
-    */
+    int x, y,ret ;
+    while (true)
+    {
+        do
+        {
+            Player.printMap(true);
+            cout << "EN lovok magamra: ";
+            cin >> x >> y;
+            ret=Player.Shoot(x, y, true);
+        } while (ret == 2);
+        if(ret == 3){
+            cout<<Player.getRatio()<<endl;
+            break;
+        }
+    }
 
     cout << "Do you want to play again? (y/n)" << endl;
     char choice;
@@ -141,11 +152,12 @@ void MainLoop(BattleMap Player)
             startGame();
         }
     }
-    else{//leave the game
+    else
+    { //leave the game
 
         //TODO tell the other side I left
-        
-        cout<<"GOODBYE"<<endl;
+
+        cout << "GOODBYE" << endl;
         exit(0);
     }
 }
@@ -175,13 +187,11 @@ void placeShips(BattleMap &Player, char ship, int NrShip)
     default:
         break;
     }
-
     cout << " with x,y coordinates \n"
          << "top - left it 0-0 x = horizontal pozition y = vertical position "
          << "and N/E/S/W for the ship direction\n"
          << "You will need to type it for each ship, one at a time\n"
          << "Type it in one line values separated by space" << endl;
-
     int ShipX = 0;
     int ShipY = 0;
     char Dir = 'N';

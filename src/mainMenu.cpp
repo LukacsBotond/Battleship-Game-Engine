@@ -75,7 +75,6 @@ float shipRatio()
 {
     ifstream fin;
     fin.open("settings.txt");
-
     string sor;
     int MapHeight;
     int MapWidth;
@@ -102,9 +101,17 @@ float shipRatio()
         {
         case 0:
             MapHeight = stoi(szavak.at(1));
+            if (MapHeight < 4)
+            {
+                MapHeight = 4;
+            }
             break;
         case 1:
             MapWidth = stoi(szavak.at(1));
+            if (MapWidth < 4)
+            {
+                MapWidth = 4;
+            }
             break;
         case 2:
             NrDestrolyer = stoi(szavak.at(1));

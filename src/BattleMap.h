@@ -16,11 +16,6 @@ public:
     //Destruktor
     ~BattleMap();
 
-    //Egy adott karaktert berak a palyara
-    //my == true- az en terkepem
-    //false - ellenfel terkepe
-    void SetMap(int x, int y, char data, bool My);
-    
     //hajo kezdo koordinata lerakasa es iranya (N/E/S/W)
     //Destroyer = D -2 hossz
     //Cruiser = C -3 hossz
@@ -29,10 +24,17 @@ public:
     //True/false ha sikerul/hiba van
     bool SetShip(int x, int y, char ship, char dir);
 
-    int getMapHeight();
-    int getMapWidth();
-    char getMyPosition(int x, int y);
-    char getEnemyPosition(int x, int y);
+    //my = ture: enemy shooting me, MyMap ships is hit
+    //false = I'm shooting, EnemyMap ships is hit
+    //return 0 if miss
+    //return 1 if hit a ship
+    //return 2 if shooting the same spot or outisde the map
+    //give an another chance this time
+    //return 3 if last ship is destroyed
+    int Shoot(int x, int y, bool My);
+
+    //returns the ration hit/miss
+    float getRatio();
 
     //kiiratas
     //my = true -sajat
@@ -40,6 +42,18 @@ public:
     void printMap(bool my);
 
 private:
+    int getMapHeight();
+    int getMapWidth();
+
+    //don't check just return, CoordinatesExist()
+    //must be called before it
+    char getPosition(int x, int y, bool My);
+
+    //Egy adott karaktert berak a palyara
+    //my == true- az en terkepem
+    //false - ellenfel terkepe
+    void SetMap(int x, int y, char data, bool My);
+
     //befere a palyara true ha befer
     bool FitShip(int x, int y, char ship, char dir);
     //igaz ha letezik es ures, hamis ha nem letezik
@@ -50,8 +64,10 @@ private:
 
     //Visszaadja a hajo hosszat, -1, ha nem megfelelo hajot adunk meg
     int getShipLength(char ship);
+
     //palya
-    //0 = nincs loves vagy hajo a mezon, nem rajzolni ki
+    //"" = nincs loves vagy hajo a mezon, nem rajzolni ki
+    //A/B/C/D = SHIP-only appear in MyMap
     //X = loves a mezon, de nem talalt
     //O = loves es talalt
     char **MyMap;
@@ -59,7 +75,7 @@ private:
     int MapHeight;
     int MapWidth;
     int HP = 0;
-    int hits=0;
-    int total=0;
+    int hits = 0;
+    int total = 0;
 };
 #endif

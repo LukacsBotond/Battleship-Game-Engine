@@ -1,0 +1,16 @@
+TEST results
+getMapHeight() SUCCESS
+getMapHeight() SUCCESS
+getMapHeight() SUCCESS
+getMapHeight() SUCCESS
+SETMAP()/getmap() my: Success
+SETMAP()/getmap() enemy: Success
+CoordinateExist: correct Success
+CoordinateExist: big heigth Success
+CoordinateExist: big width Success
+CoordinateExist: big both Success
+CoordinateExist: negative Success
+FitShip: Success
+Success
+Success
+Success

@@ -1,0 +1,6 @@
+Constructor Test passed
+
+Print Test passed
+
+getwidth/getHeight passed
+set/get positin passed

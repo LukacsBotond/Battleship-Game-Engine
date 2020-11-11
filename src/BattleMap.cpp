@@ -34,16 +34,16 @@ BattleMap::BattleMap()
 //akkora palyat keszit amekkorat akarsz
 BattleMap::BattleMap(int Height, int Width)
 {
-    if (Height < 4)
+    if (Height < 5)
     {
-        printError("tul kicsi a magassag, 4 lesz alkalmazva");
+        printError("height to small, 5 will be used");
         this->MapHeight = 4;
     }
     else
         this->MapHeight = Height;
-    if (Width < 4)
+    if (Width < 5)
     {
-        printError("tul kicsi a szelesseg, 4 lesz alkalmazva");
+        printError("width to small, 5 will be used");
         this->MapWidth = 4;
     }
     else
@@ -105,13 +105,12 @@ int BattleMap::getShipLength(char ship)
     return shipLength;
 }
 
-char BattleMap::getMyPosition(int x, int y)
+char BattleMap::getPosition(int x, int y, bool My)
 {
-    return MyMap[x][y];
-}
-
-char BattleMap::getEnemyPosition(int x, int y)
-{
+    if (My)
+    {
+        return MyMap[x][y];
+    }
     return EnemyMap[x][y];
 }
 
@@ -128,10 +127,6 @@ void BattleMap::SetMap(int x, int y, char data, bool My)
             this->EnemyMap[x][y] = data;
         }
     }
-    else
-    {
-        printError("az adat nem kerult beirasra");
-    }
 }
 
 bool BattleMap::ShipStached(int x, int y, int length, char dir)
@@ -141,9 +136,9 @@ bool BattleMap::ShipStached(int x, int y, int length, char dir)
     while (length != 0)
     {
         //ha nem szokoz akkor egy hajo van a koordinatan
-        if (getMyPosition(xnew, ynew) != ' ')
+        if (getPosition(xnew, ynew, true) != ' ')
         {
-            printError("A hajok egymasra kerultek es a jelenlegi hajo nem kerult beirasra");
+            printError("The ships would be on top of eachother");
             return true;
         }
         switch (dir)
@@ -179,7 +174,7 @@ bool BattleMap::SetShip(int x, int y, char ship, char dir)
 
     if (shipLength == -1)
     {
-        printError("A hajo nem kerult beirasra");
+        printError("The ship is not set");
         return false;
     }
     //be kell ferjen es uresek a helyek
@@ -227,25 +222,25 @@ bool BattleMap::FitShip(int x, int y, char ship, char dir)
     //felfele
     if (dir == 'N' && x - shipLength < -1)
     {
-        printError("A hajo kilog a palyarol eszakra: ");
+        printError("The ships stucks out to the North ");
         return false;
     }
     //jobbra
     if (dir == 'E' && y + shipLength > getMapWidth())
     {
-        printError("A hajo kilog a palyarol keletre: ");
+        printError("The ships stucks out to the East ");
         return false;
     }
     //lefele
     if (dir == 'S' && x + shipLength > getMapHeight())
     {
-        printError("A hajo kilog a palyarol delre: ");
+        printError("The ships stucks out to the South ");
         return false;
     }
     //balra
     if (dir == 'W' && y - shipLength < -1)
     {
-        printError("A hajo kilog a palyarol nyugatra: ");
+        printError("The ships stucks out to the West ");
         return false;
     }
     //ha eljut ide akkor a hajo be kell ferjen
@@ -256,15 +251,53 @@ bool BattleMap::CoordinateExist(int x, int y)
 {
     if (x < 0 || y < 0)
     {
-        printError("negativ koordinata kerult megadasra");
+        printError("Negative coordinate");
         return false;
     }
     if (x >= getMapHeight() || y >= getMapWidth())
     {
-        printError("a koordinata tul nagy, a szamozas 0-tol indul, igy egy 8*8-as palya eseten max 7-est lehet megadni");
+        printError("Coordinate is to big, top left is 0-0");
         return false;
     }
     return true;
+}
+
+float BattleMap::getRatio(){
+    return (float)(this->hits/this->total)*100.0;
+}
+
+int BattleMap::Shoot(int x, int y, bool My)
+{
+    if (!CoordinateExist(x, y))
+    {
+        return 2;
+    }
+    char poz = getPosition(x, y, My);
+    //already shot place
+    if (poz == 'O' || poz == 'X')
+    {
+        return 2;
+    }
+    if (poz == ' ')
+    { //MISS
+        cout<<"MISS\n";
+        total++;
+        SetMap(x, y, 'X', My);
+        return 0;
+    }
+    //HIT SHOMETHING
+    if (poz == 'A' || poz == 'B'|| poz == 'C'|| poz == 'D')
+    { 
+        total++;
+        hits++;
+        HP--;
+        cout<<HP<<endl;
+        SetMap(x, y, 'O', My);
+        if(HP == 0){
+            return 3;
+        }
+        return 1;
+    }
 }
 
 void BattleMap::printMap(bool my)
