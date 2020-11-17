@@ -41,7 +41,7 @@ public:
     //my = false -enemy
     void printMap(bool my);
 
-private:
+protected:
     int getMapHeight();
     int getMapWidth();
 

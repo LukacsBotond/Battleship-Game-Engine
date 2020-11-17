@@ -263,7 +263,7 @@ bool BattleMap::CoordinateExist(int x, int y)
 }
 
 float BattleMap::getRatio(){
-    return (float)(this->hits/this->total)*100.0;
+    return (float)((this->hits/this->total)*100.0);
 }
 
 int BattleMap::Shoot(int x, int y, bool My)
@@ -288,16 +288,19 @@ int BattleMap::Shoot(int x, int y, bool My)
     //HIT SHOMETHING
     if (poz == 'A' || poz == 'B'|| poz == 'C'|| poz == 'D')
     { 
+        cout<<"HIT\n";
         total++;
         hits++;
         HP--;
-        cout<<HP<<endl;
+        cout<<HP<<" "<<hits<<" "<<total<<endl;
         SetMap(x, y, 'O', My);
         if(HP == 0){
             return 3;
         }
         return 1;
     }
+    cout<<"SOMETHING WENT WRONG, TRY AGAIN\n";
+    return 2;
 }
 
 void BattleMap::printMap(bool my)

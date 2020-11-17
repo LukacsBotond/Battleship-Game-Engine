@@ -27,6 +27,8 @@ using namespace std;
 #define color_yellow 14
 #define color_white 15
 
+inline bool errors = true;
+
 inline void printcolor(const string s, const int textcolor)
 {
 #if defined(_WIN32)
@@ -105,7 +107,9 @@ inline void printcolor(const string s, const int textcolor)
 //piros karakterekkel kiirja a megadott uzenetet
 inline void printError(string error)
 {
-    printcolor(error, color_red);
+    if(errors){
+        printcolor(error, color_red);
+    }
 }
 
 #endif

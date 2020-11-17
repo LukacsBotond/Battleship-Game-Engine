@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include "BattleMap.h"
+#include "AI.h"
 
 using namespace std;
 
@@ -11,6 +12,8 @@ void MainMenu();
 string askUser();
 void tutorial();
 void startGame();
+
+bool checkNumber(string x);
 
 //returns the ratio to ship/ocean
 float shipRatio();
@@ -30,8 +33,13 @@ void settings();
 //NrShip -mennyi van abbol a hajobol
 void placeShips(BattleMap &Player, char ship, int NrShip);
 
-
+int playerShoot(BattleMap Player);
 
 void MainLoop(BattleMap Player);
+
+//Loop vs AI
+void MainLoopAI(BattleMap Player,AI ai);
+
+void EndGame();
 
 #endif
