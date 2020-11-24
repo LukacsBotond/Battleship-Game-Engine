@@ -20,21 +20,23 @@ bool checkNumber(string x)
     return true;
 }
 
-int playerShoot(BattleMap Player)
+int playerShootAI(BattleMap Player, AI ai)
 {
     string x, y;
     int ret;
     do
     { //en lovok amig valamit eltalat
         Player.printMap(true);
-        cout << "EN lovok magamra: ";
+        Player.printMap(false);
+        cout << "Type in the coordinates for target" << endl;
         cin >> x >> y;
         if (!checkNumber(x) || !checkNumber(y))
         {
             printError("Coordinate is not a number");
             continue;
         }
-        ret = Player.Shoot(stoi(x), stoi(y), true);
+        //shoot ai
+        ret = Player.Shoot(stoi(x), stoi(y), ai);
     } while (ret == 2);
     return ret;
 }
@@ -56,7 +58,7 @@ void MainLoop(BattleMap Player)
     EndGame();
 }
 
-void MainLoopAI(BattleMap Player,AI ai)
+void MainLoopAI(BattleMap Player, AI ai)
 {
     int ret;
     while (true)
@@ -64,10 +66,18 @@ void MainLoopAI(BattleMap Player,AI ai)
         ret = playerShoot(Player);
         if (ret == 3) //no ship remains
         {
+            printcolor("PLAYER WON", color_orange);
             cout << Player.getRatio() << endl;
             EndGame();
         }
-        //TODO get the shot coordinates from the other side
+        //AI shoot
+        ret = ai.shootAI(Player);
+        if (ret == 3) //no ship remains
+        {
+            printcolor("AI WON", color_orange);
+            cout << ai.getRatio() << endl;
+            EndGame();
+        }
     }
     EndGame();
 }

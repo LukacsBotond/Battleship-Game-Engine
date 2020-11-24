@@ -262,17 +262,18 @@ bool BattleMap::CoordinateExist(int x, int y)
     return true;
 }
 
-float BattleMap::getRatio(){
-    return (float)((this->hits/this->total)*100.0);
+float BattleMap::getRatio()
+{
+    return (float)((this->hits / this->total) * 100.0);
 }
 
-int BattleMap::Shoot(int x, int y, bool My)
+int BattleMap::Shoot(int x, int y, AI ai)
 {
     if (!CoordinateExist(x, y))
     {
         return 2;
     }
-    char poz = getPosition(x, y, My);
+    char poz = ai.getPosition(x, y, true);
     //already shot place
     if (poz == 'O' || poz == 'X')
     {
@@ -280,26 +281,73 @@ int BattleMap::Shoot(int x, int y, bool My)
     }
     if (poz == ' ')
     { //MISS
-        cout<<"MISS\n";
+        cout << "MISS\n";
         total++;
-        SetMap(x, y, 'X', My);
+        //player enemy map get set
+        SetMap(x, y, 'X', false);
+        //ai own map get set
+        ai.SetMap(x, y, 'X', true);
         return 0;
     }
     //HIT SHOMETHING
-    if (poz == 'A' || poz == 'B'|| poz == 'C'|| poz == 'D')
-    { 
-        cout<<"HIT\n";
+    if (poz == 'A' || poz == 'B' || poz == 'C' || poz == 'D')
+    {
+        cout << "HIT\n";
         total++;
         hits++;
         HP--;
-        cout<<HP<<" "<<hits<<" "<<total<<endl;
-        SetMap(x, y, 'O', My);
-        if(HP == 0){
+        cout << HP << " " << hits << " " << total << endl;
+        SetMap(x, y, 'O', false);
+        ai.SetMap(x, y, 'O', true);
+        if (HP == 0)
+        {
             return 3;
         }
         return 1;
     }
-    cout<<"SOMETHING WENT WRONG, TRY AGAIN\n";
+    cout << "SOMETHING GONE WRONG, TRY AGAIN\n";
+    return 2;
+}
+
+int BattleMap::Shoot(int x, int y, BattleMap enemy)
+{
+    if (!CoordinateExist(x, y))
+    {
+        return 2;
+    }
+    char poz = enemy.getPosition(x, y, true);
+    //already shot place
+    if (poz == 'O' || poz == 'X')
+    {
+        return 2;
+    }
+    if (poz == ' ')
+    { //MISS
+        cout << "MISS\n";
+        total++;
+        //player enemy map get set
+        SetMap(x, y, 'X', false);
+        //ai own map get set
+        enemy.SetMap(x, y, 'X', true);
+        return 0;
+    }
+    //HIT SHOMETHING
+    if (poz == 'A' || poz == 'B' || poz == 'C' || poz == 'D')
+    {
+        cout << "HIT\n";
+        total++;
+        hits++;
+        HP--;
+        cout << HP << " " << hits << " " << total << endl;
+        SetMap(x, y, 'O', false);
+        enemy.SetMap(x, y, 'O', true);
+        if (HP == 0)
+        {
+            return 3;
+        }
+        return 1;
+    }
+    cout << "SOMETHING GONE WRONG, TRY AGAIN\n";
     return 2;
 }
 

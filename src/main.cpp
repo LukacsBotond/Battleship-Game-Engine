@@ -3,6 +3,9 @@
 #include "ColorChange.h"
 #include <fstream>
 
+#include "BattleMap.h"
+#include "AI.h"
+
 using namespace std;
 
 int main()
@@ -22,7 +25,8 @@ int main()
 
     BattleMap MAP;
     BattleMap MAP1(heigth, width);
-
+/*
+{
     fout << "TEST results\n";
     {
         fout << "getMapHeight()";
@@ -171,7 +175,14 @@ int main()
             fout << "Success\n";
         }
     }
-
+}
+*/
+/*
+    int ships[4]={2,1,0,1};
+    AI test(8,8,ships,1);
+    test.printMap(true);
+    test.AIplaceShips();
+    test.printMap(true);
     fout.close();
 */
     MainMenu();

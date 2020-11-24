@@ -3,8 +3,9 @@
 
 #include <string>
 #include <iostream>
+#include "AI.h"
 
-using namespace std;
+//using namespace std;
 
 class BattleMap
 {
@@ -31,10 +32,17 @@ public:
     //return 2 if shooting the same spot or outisde the map
     //give an another chance this time
     //return 3 if last ship is destroyed
-    int Shoot(int x, int y, bool My);
+    int Shoot(int x, int y, AI ai);
+
+    int Shoot(int x, int y, BattleMap enemy);
 
     //returns the ration hit/miss
     float getRatio();
+
+    //Egy adott karaktert berak a palyara
+    //my == true- az en terkepem
+    //false - ellenfel terkepe
+    void SetMap(int x, int y, char data, bool My);
 
     //kiiratas
     //my = true -sajat
@@ -48,11 +56,6 @@ protected:
     //don't check just return, CoordinatesExist()
     //must be called before it
     char getPosition(int x, int y, bool My);
-
-    //Egy adott karaktert berak a palyara
-    //my == true- az en terkepem
-    //false - ellenfel terkepe
-    void SetMap(int x, int y, char data, bool My);
 
     //befere a palyara true ha befer
     bool FitShip(int x, int y, char ship, char dir);
@@ -78,4 +81,5 @@ protected:
     int hits = 0;
     int total = 0;
 };
+
 #endif

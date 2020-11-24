@@ -205,6 +205,16 @@ bool checkValidOption(string option, string value)
             return false;
         }
     }
+    if (option == "Port"){
+        if(checkNumber(value) ){
+            return true;
+        }
+        else{
+            printError("Port needs to be a number");
+            return false;
+        }
+    }
+
     return false;
 }
 
@@ -300,6 +310,7 @@ void settings()
         cout << "write the option you want replaced or exit to return to the Main Menu: " << endl;
         cout << " Or type 'Tutorial\n";
         cin >> option;
+
         if (option == "exit" || option == "EXIT")
         {
             if (!acceptable)
@@ -312,18 +323,27 @@ void settings()
                 if (goodratio)
                 {
                     printcolor("the ship ratio is in a good ratio", color_green);
+                    break;
                 }
                 else
                 {
                     printcolor("the ship ratio is in an acceptable ratio", color_yellow);
+                    break;
                 }
             }
         }
 
-        //type: 2
-        cout << "\n\nwrite the new value for the option\n";
-        cin >> value;
-        changeline(set, option, value);
+        if (option == "Tutorial" || option == "tutorial")
+        {
+            tutorial();
+        }
+        else
+        {
+            //type: 2
+            cout << "\n\nwrite the new value for the option\n";
+            cin >> value;
+            changeline(set, option, value);
+        }
     } while (true);
 
     cout << "press anything to return to main Menu\n";
