@@ -105,23 +105,29 @@ void startGame()
     fin.close();
     //start initialization
     BattleMap Player(MapHeigth, MapWidth);
+    BattleMap* Player_p;
+    Player_p = &Player;
     //Place the Destroyers
-    Player.printMap(true);
-    placeShips(Player, 'D', NrDestroyer);
-    placeShips(Player, 'C', NrCruiser);
-    placeShips(Player, 'B', NrBattleship);
-    placeShips(Player, 'A', NrAircraftCarrier);
+    
+    placeShips(*Player_p, 'D', NrDestroyer);
+    placeShips(*Player_p, 'C', NrCruiser);
+    placeShips(*Player_p, 'B', NrBattleship);
+    placeShips(*Player_p, 'A', NrAircraftCarrier);
+    //Shoot AI
     if (AILevel != 0)
     {
-        int ships[4]={NrDestroyer,NrCruiser, NrBattleship,NrAircraftCarrier};
-        AI ai(MapHeigth, MapWidth,ships,AILevel);
-        
-
-        MainLoopAI(Player,ai);
+        int ships[4] = {NrDestroyer, NrCruiser, NrBattleship, NrAircraftCarrier};
+        AI ai(MapHeigth, MapWidth, ships, AILevel);
+        AI* ai_p;
+        ai_p=&ai;
+        ai_p->AIplaceShips();
+        MainLoopAI(Player, *ai_p);
     }
+    //TODO PvP
     else
     {
-        MainLoop(Player);
+        throw out_of_range("Not implemented yet");
+        //MainLoop(Player);
     }
 }
 

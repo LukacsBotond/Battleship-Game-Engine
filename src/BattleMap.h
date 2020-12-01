@@ -3,7 +3,8 @@
 
 #include <string>
 #include <iostream>
-#include "AI.h"
+
+class AI;
 
 //using namespace std;
 
@@ -25,16 +26,17 @@ public:
     //True/false ha sikerul/hiba van
     bool SetShip(int x, int y, char ship, char dir);
 
-    //my = ture: enemy shooting me, MyMap ships is hit
-    //false = I'm shooting, EnemyMap ships is hit
     //return 0 if miss
     //return 1 if hit a ship
     //return 2 if shooting the same spot or outisde the map
     //give an another chance this time
     //return 3 if last ship is destroyed
-    int Shoot(int x, int y, AI ai);
 
-    int Shoot(int x, int y, BattleMap enemy);
+    //Player shoot AI
+    int Shoot(int x, int y, AI* ai);
+
+    //AI or player shoot player
+    int Shoot(int x, int y, BattleMap &enemy);
 
     //returns the ration hit/miss
     float getRatio();
@@ -80,6 +82,7 @@ protected:
     int HP = 0;
     int hits = 0;
     int total = 0;
+    //AI* ai;
 };
 
 #endif

@@ -2,17 +2,17 @@
 #include "ColorChange.h"
 #include "gameHeader.h"
 #include "AI.h"
-
-AI::AI(int hight, int width, int ships[4], int AILevel)
+/*
+AI::AI(int height,int width,int ships[4], int AILevel)
 {
-    BattleMap(hight, width);
+    cout<<"AI constructor: "<<height<<" "<<width<<endl;
     this->ships[0] = ships[0];
     this->ships[1] = ships[1];
     this->ships[2] = ships[2];
     this->ships[3] = ships[3];
     this->AILevel = AILevel;
 }
-
+*/
 void AI::AIplaceShips()
 {
     //turn off errors so when the AI randomly tries to place
@@ -64,17 +64,21 @@ void AI::AIplaceShips()
         }
         shipType--;
     }
+    cout << "initial AI state" << endl;
+    printMap(true);
 
     //turn it back on for the user
     errors = true;
 }
 
-int AI::shootAI(BattleMap Player)
+int AI::shootAI(BattleMap &Player)
 {
+    BattleMap *Player_p;
+    Player_p = &Player;
     switch (AILevel)
     {
     case 1:
-        return shootEasy(Player);
+        return shootEasy(*Player_p);
         break;
 
     default:
@@ -83,33 +87,32 @@ int AI::shootAI(BattleMap Player)
     }
 }
 
-int AI::shootEasy(BattleMap Player)
+int AI::shootEasy(BattleMap &Player)
 {
-    cout<<"AI SHOOTING..."<<endl;
-
+    cout << "AI SHOOTING..." << endl;
     srand(time(NULL));
     int ret = 2;
     int randHeight = 0;
     int randWidth = 0;
+    BattleMap *Player_p;
+    Player_p = &Player;
     while (ret == 2)
     {
-        randHeight = rand() % MapHeight-1;
-        randWidth = rand() % MapWidth-1;
-        ret = BattleMap::Shoot(randHeight, randWidth, Player);
+        randHeight = rand() % (MapHeight - 1);
+        randWidth = rand() % (MapWidth - 1);
+        ret = BattleMap::Shoot(randHeight, randWidth, *Player_p);
     }
 
     total++;
     if (ret == 0)
     {
-        Player.SetMap(randHeight, randWidth, 'X', true);
+        Player_p->SetMap(randHeight, randWidth, 'X', true);
     }
     else
     {
         hits++;
-        Player.SetMap(randHeight, randWidth, 'O', true);
+        Player_p->SetMap(randHeight, randWidth, 'O', true);
     }
-    printMap(true);
-    printMap(false);
-    cout<<"AI done shooting..."<<endl;
+    cout << "AI done shooting..." << endl;
     return ret;
 }

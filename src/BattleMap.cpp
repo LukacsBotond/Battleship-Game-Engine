@@ -1,5 +1,6 @@
 #include <iostream>
 #include "BattleMap.h"
+#include "AI.h"
 #include "ColorChange.h"
 
 using namespace std;
@@ -73,6 +74,7 @@ BattleMap::BattleMap(int Height, int Width)
 
 BattleMap::~BattleMap()
 {
+    std::cout<<"BattleMap got deleted"<<std::endl;
     for (int i = 0; i < MapHeight; i++)
     {
         delete[] this->MyMap[i];
@@ -267,26 +269,30 @@ float BattleMap::getRatio()
     return (float)((this->hits / this->total) * 100.0);
 }
 
-int BattleMap::Shoot(int x, int y, AI ai)
+//shoot AI
+int BattleMap::Shoot(int x, int y, AI* ai)
 {
     if (!CoordinateExist(x, y))
     {
         return 2;
     }
-    char poz = ai.getPosition(x, y, true);
+
+    char poz = ai->getPosition(x, y, true);
     //already shot place
     if (poz == 'O' || poz == 'X')
     {
+        cout<<"That place was already shot"<<endl;
         return 2;
     }
     if (poz == ' ')
     { //MISS
         cout << "MISS\n";
         total++;
+        cout <<"remaining ship pieces: "<< HP << " hits: " << hits << " total shots " << total << endl;
         //player enemy map get set
         SetMap(x, y, 'X', false);
         //ai own map get set
-        ai.SetMap(x, y, 'X', true);
+        ai->SetMap(x, y, 'X', true);
         return 0;
     }
     //HIT SHOMETHING
@@ -296,9 +302,10 @@ int BattleMap::Shoot(int x, int y, AI ai)
         total++;
         hits++;
         HP--;
-        cout << HP << " " << hits << " " << total << endl;
+        cout <<"remaining ship pieces: "<< HP << " hits: " << hits << " total shots " << total << endl;
         SetMap(x, y, 'O', false);
-        ai.SetMap(x, y, 'O', true);
+        ai->SetMap(x, y, 'O', true);
+        //VICTORY
         if (HP == 0)
         {
             return 3;
@@ -309,7 +316,7 @@ int BattleMap::Shoot(int x, int y, AI ai)
     return 2;
 }
 
-int BattleMap::Shoot(int x, int y, BattleMap enemy)
+int BattleMap::Shoot(int x, int y, BattleMap &enemy)
 {
     if (!CoordinateExist(x, y))
     {
@@ -338,7 +345,7 @@ int BattleMap::Shoot(int x, int y, BattleMap enemy)
         total++;
         hits++;
         HP--;
-        cout << HP << " " << hits << " " << total << endl;
+        cout <<"remaining ship pieces: "<< HP << " hits: " << hits << " total shots " << total << endl;
         SetMap(x, y, 'O', false);
         enemy.SetMap(x, y, 'O', true);
         if (HP == 0)

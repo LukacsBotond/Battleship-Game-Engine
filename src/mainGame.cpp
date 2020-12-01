@@ -1,5 +1,6 @@
 #include <iostream>
 #include "BattleMap.h"
+#include "AI.h"
 #include "ColorChange.h"
 #include "gameHeader.h"
 #include <fstream>
@@ -10,7 +11,7 @@ using namespace std;
 
 bool checkNumber(string x)
 {
-    for (int i = 0; i < x.length(); i++)
+    for (unsigned int i = 0; i < x.length(); i++)
     {
         if (!isdigit(x[i]))
         {
@@ -20,8 +21,12 @@ bool checkNumber(string x)
     return true;
 }
 
-int playerShootAI(BattleMap Player, AI ai)
+int playerShootAI(BattleMap &Player, AI &ai)
 {
+    cout << "PlayerShoot\n";
+    printcolor("Game started", color_orange);
+    cout << endl;
+
     string x, y;
     int ret;
     do
@@ -36,12 +41,14 @@ int playerShootAI(BattleMap Player, AI ai)
             continue;
         }
         //shoot ai
-        ret = Player.Shoot(stoi(x), stoi(y), ai);
+        ret = Player.Shoot(stoi(x), stoi(y), &ai);
     } while (ret == 2);
     return ret;
 }
 
+/*
 //loop till the game ends
+//NOT DONE
 void MainLoop(BattleMap Player)
 {
     int ret;
@@ -57,25 +64,31 @@ void MainLoop(BattleMap Player)
     }
     EndGame();
 }
+*/
 
-void MainLoopAI(BattleMap Player, AI ai)
+void MainLoopAI(BattleMap &Player, AI &ai)
 {
+    BattleMap* Player_p;
+    AI* ai_p;
+    Player_p=&Player;
+    ai_p=&ai;
+    cout << "MAIN LOOP\n";
     int ret;
     while (true)
     {
-        ret = playerShoot(Player);
+        ret = playerShootAI(*Player_p, *ai_p);
         if (ret == 3) //no ship remains
         {
             printcolor("PLAYER WON", color_orange);
-            cout << Player.getRatio() << endl;
+            cout << Player_p->getRatio()<< "%" << endl;
             EndGame();
         }
         //AI shoot
-        ret = ai.shootAI(Player);
+        ret = ai_p->shootAI(*Player_p);
         if (ret == 3) //no ship remains
         {
             printcolor("AI WON", color_orange);
-            cout << ai.getRatio() << endl;
+            cout << ai_p->getRatio() << endl;
             EndGame();
         }
     }

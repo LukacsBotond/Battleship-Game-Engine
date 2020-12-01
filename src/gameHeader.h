@@ -35,10 +35,12 @@ void placeShips(BattleMap &Player, char ship, int NrShip);
 
 int playerShoot(BattleMap Player);
 
+int playerShootAI(BattleMap &Player, AI &ai);
+
 void MainLoop(BattleMap Player);
 
 //Loop vs AI
-void MainLoopAI(BattleMap Player,AI ai);
+void MainLoopAI(BattleMap &Player,AI &ai);
 
 void EndGame();
 

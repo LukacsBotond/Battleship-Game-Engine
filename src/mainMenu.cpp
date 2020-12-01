@@ -138,7 +138,7 @@ vector<string> splitLine(string line)
 {
     vector<string> szavak;
     string szo = "";
-    for (int i = 0; i < line.length(); i++)
+    for (unsigned int i = 0; i < line.length(); i++)
     {
         if (line[i] == ' ')
         {
@@ -353,7 +353,7 @@ void settings()
 //do when game is done so we know what to write
 void tutorial()
 {
-    printcolor("   TUTORIAL\n", color_blue);
+    printcolor("   TUTORIAL", color_blue);
     cout << "press anything to return to main Menu\n";
     cin.get();
     cin.get();

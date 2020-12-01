@@ -2,7 +2,8 @@
 #define AI_H
 
 #include <iostream>
-#include "BattleMap.h"
+
+class BattleMap;
 
 class AI : BattleMap
 {
@@ -12,20 +13,36 @@ public:
     //ships[1]-Cruiser
     //ships[2]-Battleship
     //ships[3]-AircraftCarrier
-    AI(int hight, int width, int ships[4], int AILevel);
+    AI(int height, int width, int ships[4], int AILevel) : BattleMap(height, width)
+    {
+        //cout << "AI constructor: " << height << " " << width << endl;
+        this->ships[0] = ships[0];
+        this->ships[1] = ships[1];
+        this->ships[2] = ships[2];
+        this->ships[3] = ships[3];
+        this->AILevel = AILevel;
+    }
+    ~AI()
+    {
+        std::cout << "AI got deleted" << std::endl;
+        //BattleMap::~BattleMap();
+    }
     void AIplaceShips();
     void placeShipType(int type);
 
-    int shootAI(BattleMap Player);
-    char getPosition(int x, int y, bool My){
-        return BattleMap::getPosition(x,y,My);
+    int shootAI(BattleMap &Player);
+    char getPosition(int x, int y, bool My)
+    {
+        return BattleMap::getPosition(x, y, My);
     }
 
-    void SetMap(int x, int y, char data, bool My){
-        BattleMap::SetMap(x,y,data,My);
+    void SetMap(int x, int y, char data, bool My)
+    {
+        BattleMap::SetMap(x, y, data, My);
     }
 
-    float getRatio(){
+    float getRatio()
+    {
         return BattleMap::getRatio();
     }
 
@@ -35,12 +52,12 @@ public:
     }
 
 private:
-    int shootEasy(BattleMap Player);
-    int shootMedium(BattleMap Player);
-    int shootHard(BattleMap Player);
+    int shootEasy(BattleMap &Player);
+    //int shootMedium(BattleMap Player);
+    //int shootHard(BattleMap Player);
 
-    int lastShotX=0;
-    int lastShotY=0;
+    int lastShotX = 0;
+    int lastShotY = 0;
     int ships[4];
     int AILevel;
 };
