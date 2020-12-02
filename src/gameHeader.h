@@ -37,7 +37,7 @@ int playerShoot(BattleMap Player);
 
 int playerShootAI(BattleMap &Player, AI &ai);
 
-void MainLoop(BattleMap Player);
+void MainLoop(BattleMap Player,int HOST);
 
 //Loop vs AI
 void MainLoopAI(BattleMap &Player,AI &ai);

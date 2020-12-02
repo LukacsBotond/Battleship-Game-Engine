@@ -26,6 +26,7 @@ void startGame()
     string sor;
     vector<string> szavak;
 
+    int HOST=1;
     int MapHeigth = 8;
     int MapWidth = 8;
     int NrDestroyer = 1;
@@ -43,12 +44,15 @@ void startGame()
     if (szavak.at(1) == "0")
     {
         //TODO Hosttol megkapni a beallitasokat
+
+        HOST=0;
         fin.close();
     }
     //Host mod, a beallitasok elkuldese a hostnak es jatek inicializalasa a sajat
     //beallitasokbol
     else
     {
+        HOST=1;
         float ratio = shipRatio() * 10000;
         ratio = round(ratio);
         ratio /= 100;
@@ -94,12 +98,11 @@ void startGame()
             {
                 PORT = stoi(szavak.at(1));
             }
-            if (szavak.at(0) == "AILEVEL")
+            if (szavak.at(0) == "AILevel")
             {
                 AILevel = stoi(szavak.at(1));
             }
         }
-
         //TODO send all those to the Client
     }
     fin.close();
@@ -121,13 +124,13 @@ void startGame()
         AI* ai_p;
         ai_p=&ai;
         ai_p->AIplaceShips();
-        MainLoopAI(Player, *ai_p);
+        MainLoopAI(*Player_p, *ai_p);
     }
     //TODO PvP
     else
     {
         throw out_of_range("Not implemented yet");
-        //MainLoop(Player);
+        MainLoop(*Player_p,HOST);
     }
 }
 

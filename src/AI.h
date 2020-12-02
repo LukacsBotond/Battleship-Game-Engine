@@ -2,6 +2,14 @@
 #define AI_H
 
 #include <iostream>
+#include <list>
+
+struct COORDINATE
+{
+    int x;
+    int y;
+};
+
 
 class BattleMap;
 
@@ -53,9 +61,12 @@ public:
 
 private:
     int shootEasy(BattleMap &Player);
-    //int shootMedium(BattleMap Player);
-    //int shootHard(BattleMap Player);
+    int shootMedium(BattleMap &Player);
+    int shootHard(BattleMap &Player);
 
+    void pushCoordinate(int x,int y);
+
+    std::list<COORDINATE> hitCoordinates;
     int lastShotX = 0;
     int lastShotY = 0;
     int ships[4];

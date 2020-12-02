@@ -35,8 +35,13 @@ public:
     //Player shoot AI
     int Shoot(int x, int y, AI* ai);
 
-    //AI or player shoot player
+    //AI or local player shoot player
     int Shoot(int x, int y, BattleMap &enemy);
+
+    //PVP multi
+    //enenmy types the coordinates
+    //values tested before sent
+    int Shoot(int x,int y);
 
     //returns the ration hit/miss
     float getRatio();

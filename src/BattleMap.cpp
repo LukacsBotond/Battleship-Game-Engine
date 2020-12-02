@@ -74,7 +74,7 @@ BattleMap::BattleMap(int Height, int Width)
 
 BattleMap::~BattleMap()
 {
-    std::cout<<"BattleMap got deleted"<<std::endl;
+    std::cout << "BattleMap got deleted" << std::endl;
     for (int i = 0; i < MapHeight; i++)
     {
         delete[] this->MyMap[i];
@@ -270,7 +270,7 @@ float BattleMap::getRatio()
 }
 
 //shoot AI
-int BattleMap::Shoot(int x, int y, AI* ai)
+int BattleMap::Shoot(int x, int y, AI *ai)
 {
     if (!CoordinateExist(x, y))
     {
@@ -281,14 +281,14 @@ int BattleMap::Shoot(int x, int y, AI* ai)
     //already shot place
     if (poz == 'O' || poz == 'X')
     {
-        cout<<"That place was already shot"<<endl;
+        cout << "That place was already shot" << endl;
         return 2;
     }
     if (poz == ' ')
     { //MISS
         cout << "MISS\n";
         total++;
-        cout <<"remaining ship pieces: "<< HP << " hits: " << hits << " total shots " << total << endl;
+        cout << "remaining ship pieces: " << HP << " hits: " << hits << " total shots " << total << endl;
         //player enemy map get set
         SetMap(x, y, 'X', false);
         //ai own map get set
@@ -302,7 +302,7 @@ int BattleMap::Shoot(int x, int y, AI* ai)
         total++;
         hits++;
         HP--;
-        cout <<"remaining ship pieces: "<< HP << " hits: " << hits << " total shots " << total << endl;
+        cout << "remaining ship pieces: " << HP << " hits: " << hits << " total shots " << total << endl;
         SetMap(x, y, 'O', false);
         ai->SetMap(x, y, 'O', true);
         //VICTORY
@@ -345,7 +345,7 @@ int BattleMap::Shoot(int x, int y, BattleMap &enemy)
         total++;
         hits++;
         HP--;
-        cout <<"remaining ship pieces: "<< HP << " hits: " << hits << " total shots " << total << endl;
+        cout << "remaining ship pieces: " << HP << " hits: " << hits << " total shots " << total << endl;
         SetMap(x, y, 'O', false);
         enemy.SetMap(x, y, 'O', true);
         if (HP == 0)
@@ -354,7 +354,42 @@ int BattleMap::Shoot(int x, int y, BattleMap &enemy)
         }
         return 1;
     }
-    cout << "SOMETHING GONE WRONG, TRY AGAIN\n";
+    cout << "SOMETHING WENT WRONG, TRY AGAIN\n";
+    return 2;
+}
+
+int BattleMap::Shoot(int x, int y)
+{
+    char poz = getPosition(x, y, true);
+    //already shot place
+    if (poz == 'O' || poz == 'X')
+    {
+        return 2;
+    }
+    if (poz == ' ')
+    { //MISS
+        cout << "MISS\n";
+        total++;
+        //player own map get set
+        SetMap(x, y, 'X', true);
+        return 0;
+    }
+    //HIT SHOMETHING
+    if (poz == 'A' || poz == 'B' || poz == 'C' || poz == 'D')
+    {
+        cout << "HIT\n";
+        total++;
+        hits++;
+        HP--;
+        cout << "remaining ship pieces: " << HP << " hits: " << hits << " total shots " << total << endl;
+        SetMap(x, y, 'O', true);
+        if (HP == 0)
+        {
+            return 3;
+        }
+        return 1;
+    }
+    cout << "SOMETHING WENT WRONG, TRY AGAIN\n";
     return 2;
 }
 

@@ -11,8 +11,8 @@ Command line based Battleship game currently in development.
   - [ ] AI or Multiplayer option
   - [X] Setting multiple ships from the same type so bigger maps are playable
   - [X] After setting the map size give recomendation of the number of ships to be placed so the map won't be too empty or too full
-  - [ ] A main loop which goes till someone wins or surrender, host start first
-  - [ ] End screen after someone wins, dispalying hit ratio
+  - [X] A main loop which goes till someone wins or surrender, host start first
+  - [X] End screen after someone wins, dispalying hit ratio
   
   - The Host (or player in vs AI) gives the map size and the number of ships from each type and the other side have obey that
   - The players don't get both map, they can only send the coordinates where to shoot and the other side sends back if it missed, hit

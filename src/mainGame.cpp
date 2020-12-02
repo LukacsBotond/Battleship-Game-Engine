@@ -46,25 +46,52 @@ int playerShootAI(BattleMap &Player, AI &ai)
     return ret;
 }
 
-/*
 //loop till the game ends
 //NOT DONE
-void MainLoop(BattleMap Player)
+void MainLoop(BattleMap &Player,int HOST)
 {
+    printcolor("Game started", color_orange);
     int ret;
+    bool IShoot = false;
+    //HOST get the firts shot
+    string x,y;
+    if(HOST==1){
+        IShoot=true;
+    }
+
     while (true)
     {
-        ret = playerShoot(Player);
-        if (ret == 3) //no ship remains
-        {
-            cout << Player.getRatio() << endl;
-            EndGame();
+        //shooter runs in this part
+        if(IShoot){
+            cout << "Type in the coordinates for target" << endl;
+            cin >> x >> y;
+            //TODO send the coordinates to the other side
+
+            //TODO wait for recv is hit/miss won
+
+            //TODO SET own enemy map accordingly to result
+            //TODO increase hit/miss accordilngly
+
+            //TODO if won
+            //EndGame();
+
+        }//the other is in this part
+        else{
+            //TODO recv coordinates
+
+            //ret = Player.Shoot(4,4);
+
+            //TODO return hit/miss/won
+
+            //TODO if won
+            //EndGame();
         }
-        //TODO get the shot coordinates from the other side
+        //Change roles
+        IShoot= !IShoot;
     }
     EndGame();
 }
-*/
+
 
 void MainLoopAI(BattleMap &Player, AI &ai)
 {
@@ -80,7 +107,7 @@ void MainLoopAI(BattleMap &Player, AI &ai)
         if (ret == 3) //no ship remains
         {
             printcolor("PLAYER WON", color_orange);
-            cout << Player_p->getRatio()<< "%" << endl;
+            cout <<(float)Player_p->getRatio()*100<< "%" << endl;
             EndGame();
         }
         //AI shoot
