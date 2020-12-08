@@ -9,8 +9,8 @@ void AI::AIplaceShips()
     //ships it won't fill the screen with error messages when
     //it fails randomly
     errors = false;
-    int width = getMapWidth();
-    int heigth = getMapHeight();
+    int width = MapWidth;
+    int heigth = MapHeight;
     srand((unsigned)time(0));
     char shipType = 'D';
     char shipDir;

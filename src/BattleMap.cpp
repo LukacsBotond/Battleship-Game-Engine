@@ -84,16 +84,6 @@ BattleMap::~BattleMap()
     delete[] this->EnemyMap;
 }
 
-int BattleMap::getMapHeight()
-{
-    return this->MapHeight;
-}
-
-int BattleMap::getMapWidth()
-{
-    return this->MapWidth;
-}
-
 int BattleMap::getShipLength(char ship)
 {
     int shipLength = (ship - 'F') * -1;
@@ -228,13 +218,13 @@ bool BattleMap::FitShip(int x, int y, char ship, char dir)
         return false;
     }
     //jobbra
-    if (dir == 'E' && y + shipLength > getMapWidth())
+    if (dir == 'E' && y + shipLength > MapWidth)
     {
         printError("The ships stucks out to the East ");
         return false;
     }
     //lefele
-    if (dir == 'S' && x + shipLength > getMapHeight())
+    if (dir == 'S' && x + shipLength > MapHeight)
     {
         printError("The ships stucks out to the South ");
         return false;
@@ -256,7 +246,7 @@ bool BattleMap::CoordinateExist(int x, int y)
         printError("Negative coordinate");
         return false;
     }
-    if (x >= getMapHeight() || y >= getMapWidth())
+    if (x >= MapHeight || y >= MapWidth)
     {
         printError("Coordinate is to big, top left is 0-0");
         return false;

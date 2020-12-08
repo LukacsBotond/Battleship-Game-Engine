@@ -36,7 +36,6 @@ public:
         //BattleMap::~BattleMap();
     }
     void AIplaceShips();
-    void placeShipType(int type);
 
     int shootAI(BattleMap &Player);
     char getPosition(int x, int y, bool My)
@@ -63,6 +62,8 @@ private:
     int shootEasy(BattleMap &Player);
     int shootMedium(BattleMap &Player);
     int shootHard(BattleMap &Player);
+
+    void placeShipType(int type);
 
     void pushCoordinate(int x,int y);
 

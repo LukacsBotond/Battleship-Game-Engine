@@ -74,7 +74,6 @@ void MainLoop(BattleMap &Player,int HOST)
 
             //TODO if won
             //EndGame();
-
         }//the other is in this part
         else{
             //TODO recv coordinates
@@ -91,7 +90,6 @@ void MainLoop(BattleMap &Player,int HOST)
     }
     EndGame();
 }
-
 
 void MainLoopAI(BattleMap &Player, AI &ai)
 {
@@ -146,9 +144,7 @@ void EndGame()
     }
     else
     { //leave the game
-
         //TODO tell the other side I left
-
         cout << "GOODBYE" << endl;
         exit(0);
     }

@@ -168,7 +168,7 @@ bool checkValidOption(string option, string value)
             return false;
         }
     }
-    //MapHeigth nagyobb mint 4 es kissebb mint 50
+    //MapHeigth nagyobb mint 4 es kissebb mint 20
     if ((option == "MapHeigth" || option == "MapWidth"))
     {
         if (value >= "4" && value <= "20")

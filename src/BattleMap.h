@@ -57,9 +57,6 @@ public:
     void printMap(bool my);
 
 protected:
-    int getMapHeight();
-    int getMapWidth();
-
     //don't check just return, CoordinatesExist()
     //must be called before it
     char getPosition(int x, int y, bool My);
