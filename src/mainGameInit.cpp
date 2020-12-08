@@ -35,7 +35,7 @@ void startGame()
     int NrAircraftCarrier = 1;
     string IP = "127.0.0.1";
     int PORT = 54000;
-    int AILevel = 1;
+    int AILevel = 3;
 
     //HOST vagy Client
     getline(fin, sor);

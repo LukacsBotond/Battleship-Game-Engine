@@ -354,6 +354,7 @@ void settings()
 void tutorial()
 {
     printcolor("   TUTORIAL", color_blue);
+    printFile("tutorial.txt");
     cout << "press anything to return to main Menu\n";
     cin.get();
     cin.get();

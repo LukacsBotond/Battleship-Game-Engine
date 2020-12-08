@@ -1,0 +1,33 @@
+Main menu:
+    -write the command in the parentheses to enter the submenu
+    -so type start to start the game or settings to enter settings
+
+settings:
+    -HOST is 1 or it won’t read the settings, needs to be 1 for all AI game, because if it is 0 then it will only work in multiplayer and the host will send the values for initialization
+    -allows change of settings
+    -first type the command you want to change, like ‘MapHeight’ or ‘AILevel’ then press enter
+    -then type the new value you want to change into, then press enter again
+    -if the ship ratio is acceptable (it calculates it for you), so under 100% you can type ‘exit’ to return to the Main Menu 
+
+tutorial:
+    -Enters this submenu
+
+exit:
+    -exit the game
+
+Init Game:
+    -After the user start the game it will start the game initialization and the placement of ships
+    -the ship placement procedure goes like this:
+        -the first value is the vertical position, the second is the horizontal position
+        -first ask to place the Destroyers, the user have to type the ship head position and the direction all separated by space then press enter on the end of the line, for example: 0 0 N
+    -the procedure is the same with all types of ship, if there is no ship from that type then it will skip it and after each ship placement if will draw the updated map
+    -after all ships are placed it automatically start the game based on the settings
+
+Main game loop:
+    -before the shot it will show the updated maps
+    -when the player turn starts the game will ask for coordinates for the shot
+    -it’s value needs to be inside the map for obvious reasons (or there would be no canche to hit anything), it follows the same as the ship placement. The first value is the horizontal, the second is vertical, it is recommended to be separated by a space and press enter when both values are set.
+    -after the shot it will print if it hit or missed, remaining ship pieces, hit ratio
+    -when someone wins it is possible to start again by typing ‘y’ then by typing ‘start’ it start again, or ‘settings’ to enter the settings submenu to change settings
+    -if something else is pressed then the game exits
+    

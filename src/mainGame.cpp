@@ -24,7 +24,6 @@ bool checkNumber(string x)
 int playerShootAI(BattleMap &Player, AI &ai)
 {
     cout << "PlayerShoot\n";
-    printcolor("Game started", color_orange);
     cout << endl;
 
     string x, y;
@@ -97,7 +96,7 @@ void MainLoopAI(BattleMap &Player, AI &ai)
     AI* ai_p;
     Player_p=&Player;
     ai_p=&ai;
-    cout << "MAIN LOOP\n";
+    printcolor("Game started", color_orange);
     int ret;
     while (true)
     {
