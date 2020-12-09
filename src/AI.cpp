@@ -76,9 +76,16 @@ int AI::shootAI(BattleMap &Player)
         break;
 
     case 3:
-        return shootHard(*Player_p);
+    {
+        errors = false;
+        int ret = 2;
+        while(ret == 2){
+            ret = shootHard(*Player_p);
+        }
+        errors = true;
+        return ret;
         break;
-
+    }
     default:
         throw out_of_range("AI outside exepted range");
         break;
@@ -153,6 +160,11 @@ int AI::shootHard(BattleMap &Player)
         {
             randHeight = rand() % (MapHeight);
             randWidth = rand() % (MapWidth);
+
+            if(hole(randHeight,randWidth)){//lik
+                continue;
+            }
+
             ret = BattleMap::Shoot(randHeight, randWidth, *Player_p);
         }
         //hit something, add it to the list
@@ -164,7 +176,6 @@ int AI::shootHard(BattleMap &Player)
     }
     else
     { //a ship was hit and not cleared around it
-
         tmp = hitCoordinates.front();
         //ship or miss shot
         ret = BattleMap::Shoot(tmp.x - 1, tmp.y, *Player_p);
@@ -204,7 +215,7 @@ int AI::shootHard(BattleMap &Player)
 
             return ret;
         }
-        else//== 2 ocupied
+        else //== 2 ocupied
         {
             //if it gets this far and still couldn't return
             //then it means it is cleared around it and can be removed
@@ -234,4 +245,39 @@ void AI::pushCoordinate(int x, int y)
     tmp.x = x;
     tmp.y = y;
     hitCoordinates.push_back(tmp);
+}
+
+bool AI::hole(int x, int y)
+{
+    if (x != 0)
+    {
+        if (this->EnemyMap[x - 1][y] == ' ')
+        {
+            return false;
+        }
+    }
+    if (x != MapHeight - 1)
+    {
+        if (this->EnemyMap[x + 1][y] == ' ')
+        {
+            return false;
+        }
+    }
+
+    if (y != 0)
+    {
+        if (this->EnemyMap[x][y - 1] == ' ')
+        {
+            return false;
+        }
+    }
+    if (y != MapHeight - 1)
+    {
+        if (this->EnemyMap[x][y + 1] == ' ')
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
