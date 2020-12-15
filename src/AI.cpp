@@ -68,7 +68,12 @@ int AI::shootAI(BattleMap &Player)
     switch (AILevel)
     {
     case 1:
-        return shootEasy(*Player_p);
+        int res;
+        do
+        {
+            res = shootEasy(*Player_p);
+        } while (res == 1 || res == 3);
+        return res;
         break;
 
     case 2:
@@ -79,9 +84,10 @@ int AI::shootAI(BattleMap &Player)
     {
         errors = false;
         int ret = 2;
-        while(ret == 2){
+        do
+        {
             ret = shootHard(*Player_p);
-        }
+        } while (ret == 1 || ret == 3);
         errors = true;
         return ret;
         break;
@@ -133,12 +139,12 @@ int AI::shootMedium(BattleMap &Player)
     int randWidth = 0;
     BattleMap *Player_p;
     Player_p = &Player;
-    while (ret == 2)
+    do
     {
         randHeight = rand() % (MapHeight);
         randWidth = rand() % (MapWidth);
         ret = BattleMap::Shoot(randHeight, randWidth, *Player_p);
-    }
+    } while (ret == 1 || ret == 3);
     cout << "AI done shooting..." << endl;
     return ret;
 }
@@ -161,7 +167,8 @@ int AI::shootHard(BattleMap &Player)
             randHeight = rand() % (MapHeight);
             randWidth = rand() % (MapWidth);
 
-            if(hole(randHeight,randWidth)){//lik
+            if (hole(randHeight, randWidth))
+            { //lik
                 continue;
             }
 

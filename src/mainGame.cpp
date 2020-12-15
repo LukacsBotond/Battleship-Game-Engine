@@ -41,7 +41,7 @@ int playerShootAI(BattleMap &Player, AI &ai)
         }
         //shoot ai
         ret = Player.Shoot(stoi(x), stoi(y), &ai);
-    } while (ret == 2);
+    } while (ret == 1 || ret == 3);
     return ret;
 }
 
