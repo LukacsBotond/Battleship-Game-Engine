@@ -278,6 +278,12 @@ void settings()
         currentRatio = round(currentRatio);
         currentRatio /= 100;
         //10% ship or less
+
+        if(currentRatio == 0){
+            acceptable = false;
+            printError("There is no ship, at least 1 ship required");
+        }
+
         if ((currentRatio - reqRatio) < (-5))
         {
             goodratio = false;

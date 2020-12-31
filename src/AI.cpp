@@ -63,6 +63,7 @@ void AI::AIplaceShips()
 
 int AI::shootAI(BattleMap &Player)
 {
+    cout << "AI SHOOTING..." << endl;
     BattleMap *Player_p;
     Player_p = &Player;
     switch (AILevel)
@@ -100,7 +101,6 @@ int AI::shootAI(BattleMap &Player)
 
 int AI::shootEasy(BattleMap &Player)
 {
-    cout << "AI SHOOTING..." << endl;
     BattleMap *Player_p;
     Player_p = &Player;
     COORDINATE tmp;
@@ -132,7 +132,6 @@ int AI::shootEasy(BattleMap &Player)
 
 int AI::shootMedium(BattleMap &Player)
 {
-    cout << "AI SHOOTING..." << endl;
     srand(time(NULL));
     int ret = 2;
     int randHeight = 0;
@@ -151,7 +150,6 @@ int AI::shootMedium(BattleMap &Player)
 
 int AI::shootHard(BattleMap &Player)
 {
-    cout << "AI SHOOTING..." << endl;
     int ret = 2;
     int randHeight = 0;
     int randWidth = 0;

@@ -271,12 +271,12 @@ int BattleMap::Shoot(int x, int y, AI *ai)
     //already shot place
     if (poz == 'O' || poz == 'X')
     {
-        cout << "That place was already shot" << endl;
+        printcolor("That place was already shot", color_orange);
         return 2;
     }
     if (poz == ' ')
     { //MISS
-        cout << "MISS\n";
+        printcolor("MISS", color_red);
         total++;
         cout << "remaining ship pieces: " << HP << " hits: " << hits << " total shots " << total << endl;
         //player enemy map get set
@@ -288,7 +288,7 @@ int BattleMap::Shoot(int x, int y, AI *ai)
     //HIT SHOMETHING
     if (poz == 'A' || poz == 'B' || poz == 'C' || poz == 'D')
     {
-        cout << "HIT\n";
+        printcolor("HIT", color_green);
         total++;
         hits++;
         HP--;
@@ -302,7 +302,7 @@ int BattleMap::Shoot(int x, int y, AI *ai)
         }
         return 1;
     }
-    cout << "SOMETHING GONE WRONG, TRY AGAIN\n";
+    printError("SOMETHING GONE WRONG, TRY AGAIN");
     return 2;
 }
 
@@ -320,7 +320,7 @@ int BattleMap::Shoot(int x, int y, BattleMap &enemy)
     }
     if (poz == ' ')
     { //MISS
-        cout << "MISS\n";
+        printcolor("MISS", color_red);
         total++;
         //player enemy map get set
         SetMap(x, y, 'X', false);
@@ -331,7 +331,7 @@ int BattleMap::Shoot(int x, int y, BattleMap &enemy)
     //HIT SHOMETHING
     if (poz == 'A' || poz == 'B' || poz == 'C' || poz == 'D')
     {
-        cout << "HIT\n";
+        printcolor("HIT", color_green);
         total++;
         hits++;
         HP--;
@@ -344,7 +344,6 @@ int BattleMap::Shoot(int x, int y, BattleMap &enemy)
         }
         return 1;
     }
-    cout << "SOMETHING WENT WRONG, TRY AGAIN\n";
     return 2;
 }
 
@@ -358,7 +357,7 @@ int BattleMap::Shoot(int x, int y)
     }
     if (poz == ' ')
     { //MISS
-        cout << "MISS\n";
+        printcolor("MISS", color_red);
         total++;
         //player own map get set
         SetMap(x, y, 'X', true);
@@ -367,7 +366,7 @@ int BattleMap::Shoot(int x, int y)
     //HIT SHOMETHING
     if (poz == 'A' || poz == 'B' || poz == 'C' || poz == 'D')
     {
-        cout << "HIT\n";
+        printcolor("HIT", color_green);
         total++;
         hits++;
         HP--;
