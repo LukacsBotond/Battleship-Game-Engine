@@ -1,4 +1,5 @@
 HOST 1
+Multiplayer 1
 MapHeigth 8
 MapWidth 7
 NrDestroyer 1
@@ -7,4 +8,4 @@ NrBattleship 1
 NrAircraftCarrier 0
 HOSTIP 127.0.0.1
 Port 54000
-AILevel 3
+AILevel 0
