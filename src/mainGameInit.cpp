@@ -3,11 +3,9 @@
 #include "ColorChange.h"
 #include "gameHeader.h"
 #include "AI.h"
-#include "Multiplayer.h"
 #include <fstream>
 #include <vector>
 #include <cmath>
-#include "windows.h"
 
 using namespace std;
 
@@ -28,16 +26,15 @@ void startGame()
     string sor;
     vector<string> szavak;
 
-    int multiplayer;
-    int HOST = 1;
+    int HOST=1;
     int MapHeigth = 8;
     int MapWidth = 8;
     int NrDestroyer = 1;
     int NrCruiser = 1;
     int NrBattleship = 1;
     int NrAircraftCarrier = 1;
-    string IP = "127.0.0.1"; //
-    int PORT = 54000;        //ki kene venni
+    string IP = "127.0.0.1";
+    int PORT = 54000;
     int AILevel = 3;
 
     //HOST vagy Client
@@ -48,137 +45,62 @@ void startGame()
     {
         //TODO Hosttol megkapni a beallitasokat
 
-        HOST = 0;
-        //
-        MapHeigth = stoi(recvMessage());
-        cout << "MapHeigth:" << MapHeigth << endl;
-        MapWidth = stoi(recvMessage());
-        cout << "MapWidth:" << MapWidth << endl;
-        NrDestroyer = stoi(recvMessage());
-        cout << "NrDestroyer:" << NrDestroyer << endl;
-        NrCruiser = stoi(recvMessage());
-        cout << "NrCruiser:" << NrCruiser << endl;
-        NrBattleship = stoi(recvMessage());
-        cout << "NrBattleship:" << NrBattleship << endl;
-        NrAircraftCarrier = stoi(recvMessage());
-        cout << "NrAircraftCarrier:" << NrAircraftCarrier << endl;
-        IP = recvMessage();
-        cout << "IP:" << IP << endl;
-        PORT = stoi(recvMessage());
-        cout << "PORT:" << PORT << endl;
-        AILevel = stoi(recvMessage());
-        cout << "AI:" << AILevel << endl;
-        //
+        HOST=0;
         fin.close();
     }
     //Host mod, a beallitasok elkuldese a hostnak es jatek inicializalasa a sajat
     //beallitasokbol
     else
     {
-        HOST = 1;
+        HOST=1;
         float ratio = shipRatio() * 10000;
         ratio = round(ratio);
         ratio /= 100;
         cout << "Currens ship ratio: " << ratio << endl;
         if (ratio > 100 || ratio <= 0)
         {
-            printError("Error there are no ships, or more ships than ocean");
+            printError("Error there are no ships, or more ship that ocean");
             printError("You will be redirected to settings to change that");
             settings();
         }
         while (getline(fin, sor))
         {
             szavak = splitLine(sor);
-
-            if (szavak.at(0) == "Multiplayer")
-            {
-                if (stoi(szavak.at(1)) == 1)
-                {
-                    multiplayer = 1;
-                }
-            }
-
             if (szavak.at(0) == "MapHeigth")
             {
                 MapHeigth = stoi(szavak.at(1));
-                if (multiplayer)
-                {
-                    sendSetting(szavak.at(1));
-                    Sleep(10);
-                }
             }
             if (szavak.at(0) == "MapWidth")
             {
                 MapWidth = stoi(szavak.at(1));
-                if (multiplayer)
-                {
-                    sendSetting(szavak.at(1));
-                    Sleep(10);
-                }
             }
             if (szavak.at(0) == "NrDestroyer")
             {
                 NrDestroyer = stoi(szavak.at(1));
-                if (multiplayer)
-                {
-                    sendSetting(szavak.at(1));
-                    Sleep(10);
-                }
             }
             if (szavak.at(0) == "NrCruiser")
             {
                 NrCruiser = stoi(szavak.at(1));
-                if (multiplayer)
-                {
-                    sendSetting(szavak.at(1));
-                    Sleep(10);
-                }
             }
             if (szavak.at(0) == "NrBattleship")
             {
                 NrBattleship = stoi(szavak.at(1));
-                if (multiplayer)
-                {
-                    sendSetting(szavak.at(1));
-                    Sleep(10);
-                }
             }
             if (szavak.at(0) == "NrAircraftCarrier")
             {
                 NrAircraftCarrier = stoi(szavak.at(1));
-                if (multiplayer)
-                {
-                    sendSetting(szavak.at(1));
-                    Sleep(10);
-                }
             }
             if (szavak.at(0) == "HOSTIP")
             {
-                // IP = stoi(szavak.at(1));
-                IP = szavak.at(1);
-                if (multiplayer)
-                {
-                    sendSetting(szavak.at(1));
-                    Sleep(10);
-                }
+                IP = stoi(szavak.at(1));
             }
             if (szavak.at(0) == "Port")
             {
                 PORT = stoi(szavak.at(1));
-                if (multiplayer)
-                {
-                    sendSetting(szavak.at(1));
-                    Sleep(10);
-                }
             }
             if (szavak.at(0) == "AILevel")
             {
                 AILevel = stoi(szavak.at(1));
-                if (multiplayer)
-                {
-                    sendSetting(szavak.at(1));
-                    Sleep(10);
-                }
             }
         }
         //TODO send all those to the Client
@@ -189,7 +111,7 @@ void startGame()
     BattleMap* Player_p;
     Player_p = &Player;
     //Place the Destroyers
-
+    
     placeShips(*Player_p, 'D', NrDestroyer);
     placeShips(*Player_p, 'C', NrCruiser);
     placeShips(*Player_p, 'B', NrBattleship);
@@ -197,22 +119,22 @@ void startGame()
     //Shoot AI
     if (AILevel != 0)
     {
-        int ships[4] = { NrDestroyer, NrCruiser, NrBattleship, NrAircraftCarrier };
+        int ships[4] = {NrDestroyer, NrCruiser, NrBattleship, NrAircraftCarrier};
         AI ai(MapHeigth, MapWidth, ships, AILevel);
         AI* ai_p;
-        ai_p = &ai;
+        ai_p=&ai;
         ai_p->AIplaceShips();
         MainLoopAI(*Player_p, *ai_p);
     }
     //TODO PvP
     else
     {
-        //throw out_of_range("Not implemented yet");
-        MainLoop(*Player_p, HOST);
+        throw out_of_range("Not implemented yet");
+        MainLoop(*Player_p,HOST);
     }
 }
 
-void placeShips(BattleMap& Player, char ship, int NrShip)
+void placeShips(BattleMap &Player, char ship, int NrShip)
 {
     //there is no ships to be set
     if (NrShip <= 0)
@@ -238,10 +160,10 @@ void placeShips(BattleMap& Player, char ship, int NrShip)
         break;
     }
     cout << " with x,y coordinates \n"
-        << "top - left it 0-0 x = horizontal pozition y = vertical position "
-        << "and N/E/S/W for the ship direction\n"
-        << "You will need to type it for each ship, one at a time\n"
-        << "Type it in one line values separated by space" << endl;
+         << "top - left it 0-0 x = horizontal pozition y = vertical position "
+         << "and N/E/S/W for the ship direction\n"
+         << "You will need to type it for each ship, one at a time\n"
+         << "Type it in one line values separated by space" << endl;
     string ShipX;
     string ShipY;
     char Dir = 'N';
