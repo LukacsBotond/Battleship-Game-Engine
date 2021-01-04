@@ -73,7 +73,11 @@ int AI::shootAI(BattleMap &Player)
         do
         {
             res = shootEasy(*Player_p);
-        } while (res == 1 || res == 3);
+            if (res == 0 || res == 3)
+            {
+                break;
+            }
+        } while (true);
         return res;
         break;
 
@@ -88,7 +92,11 @@ int AI::shootAI(BattleMap &Player)
         do
         {
             ret = shootHard(*Player_p);
-        } while (ret == 1 || ret == 3);
+            if (ret == 0 || ret == 3)
+            {
+                break;
+            }
+        } while (true);
         errors = true;
         return ret;
         break;
@@ -143,9 +151,62 @@ int AI::shootMedium(BattleMap &Player)
         randHeight = rand() % (MapHeight);
         randWidth = rand() % (MapWidth);
         ret = BattleMap::Shoot(randHeight, randWidth, *Player_p);
-    } while (ret == 1 || ret == 3);
+        if (ret == 0 || ret == 3)
+        {
+            break;
+        }
+    } while (true);
     cout << "AI done shooting..." << endl;
     return ret;
+}
+
+int AI::shootAround(BattleMap &Player)
+{
+    COORDINATE tmp;
+    BattleMap *Player_p;
+    Player_p = &Player;
+    //a ship was hit and not cleared around it
+    tmp = hitCoordinates.front();
+    //ship or miss shot
+    int ret = BattleMap::Shoot(tmp.x - 1, tmp.y, *Player_p);
+    if (ret != 2)
+    {
+        if (ret == 1)
+        {
+            pushCoordinate(tmp.x - 1, tmp.y);
+        }
+        return ret;
+    }
+    ret = BattleMap::Shoot(tmp.x + 1, tmp.y, *Player_p);
+    if (ret != 2)
+    {
+        if (ret == 1)
+        {
+            pushCoordinate(tmp.x + 1, tmp.y);
+        }
+        return ret;
+    }
+    ret = BattleMap::Shoot(tmp.x, tmp.y - 1, *Player_p);
+    if (ret != 2)
+    {
+        if (ret == 1)
+        {
+            pushCoordinate(tmp.x, tmp.y - 1);
+        }
+        return ret;
+    }
+    ret = BattleMap::Shoot(tmp.x, tmp.y + 1, *Player_p);
+    if (ret != 2)
+    {
+        if (ret == 1)
+        {
+            pushCoordinate(tmp.x, tmp.y + 1);
+        }
+
+        return ret;
+    }
+
+    return -1;
 }
 
 int AI::shootHard(BattleMap &Player)
@@ -155,7 +216,6 @@ int AI::shootHard(BattleMap &Player)
     int randWidth = 0;
     BattleMap *Player_p;
     Player_p = &Player;
-    COORDINATE tmp;
     //if there wasn't a ship hit and not cleared around
     //it then shoot randomly
     if (hitCoordinates.empty())
@@ -180,67 +240,19 @@ int AI::shootHard(BattleMap &Player)
         return ret;
     }
     else
-    { //a ship was hit and not cleared around it
-        tmp = hitCoordinates.front();
-        //ship or miss shot
-        ret = BattleMap::Shoot(tmp.x - 1, tmp.y, *Player_p);
-        if (ret != 2)
+    {
+        while (true)
         {
-            if (ret == 1)
-            {
-                pushCoordinate(tmp.x - 1, tmp.y);
+            ret = shootAround(*Player_p);
+            if(ret == 0 || ret == 3){//miss or win
+                cout << "AI done shooting..." << endl;
+                return ret;
             }
-            return ret;
-        }
-        ret = BattleMap::Shoot(tmp.x + 1, tmp.y, *Player_p);
-        if (ret != 2)
-        {
-            if (ret == 1)
-            {
-                pushCoordinate(tmp.x + 1, tmp.y);
+            if(ret == -1 && !hitCoordinates.empty()){//still can shoot
+                hitCoordinates.pop_front();
             }
-            return ret;
-        }
-        ret = BattleMap::Shoot(tmp.x, tmp.y - 1, *Player_p);
-        if (ret != 2)
-        {
-            if (ret == 1)
-            {
-                pushCoordinate(tmp.x, tmp.y - 1);
-            }
-            return ret;
-        }
-        ret = BattleMap::Shoot(tmp.x, tmp.y + 1, *Player_p);
-        if (ret != 2)
-        {
-            if (ret == 1)
-            {
-                pushCoordinate(tmp.x, tmp.y + 1);
-            }
-
-            return ret;
-        }
-        else //== 2 ocupied
-        {
-            //if it gets this far and still couldn't return
-            //then it means it is cleared around it and can be removed
-            //and shoot a random place
-            hitCoordinates.pop_front();
-            while (ret == 2)
-            {
-                randHeight = rand() % (MapHeight);
-                randWidth = rand() % (MapWidth);
-                ret = BattleMap::Shoot(randHeight, randWidth, *Player_p);
-            }
-            //hit something, add it to the list
-            if (ret == 1)
-            {
-                pushCoordinate(randHeight, randWidth);
-            }
-            return ret;
-        }
+        } 
     }
-    cout << "AI done shooting..." << endl;
     return ret;
 }
 

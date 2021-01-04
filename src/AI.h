@@ -63,6 +63,7 @@ private:
     int shootMedium(BattleMap &Player);
     int shootHard(BattleMap &Player);
 
+    int shootAround(BattleMap &Player);
     bool hole(int x,int y);
 
     void placeShipType(int type);
