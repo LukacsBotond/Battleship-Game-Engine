@@ -21,8 +21,7 @@ bool checkNumber(string x)
     }
     return true;
 }
-
-int playerShootAI(BattleMap& Player, AI& ai)
+int playerShootAI(BattleMap &Player, AI &ai)
 {
     cout << "PlayerShoot\n";
     cout << endl;
@@ -42,7 +41,10 @@ int playerShootAI(BattleMap& Player, AI& ai)
         }
         //shoot ai
         ret = Player.Shoot(stoi(x), stoi(y), &ai);
-    } while (ret == 2);
+        if(ret == 0 || ret == 3){
+            break;
+        }
+    } while (true);
     return ret;
 }
 
