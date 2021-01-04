@@ -28,7 +28,7 @@ void startGame()
     string sor;
     vector<string> szavak;
 
-    int multiplayer;
+    int multiplayer = 0;
     int HOST = 1;
     int MapHeigth = 8;
     int MapWidth = 8;
@@ -36,8 +36,6 @@ void startGame()
     int NrCruiser = 1;
     int NrBattleship = 1;
     int NrAircraftCarrier = 1;
-    string IP = "127.0.0.1"; //
-    int PORT = 54000;        //ki kene venni
     int AILevel = 3;
 
     //HOST vagy Client
@@ -46,10 +44,10 @@ void startGame()
     //kliens mod, a settings a hosttol erkezik, nincs miert tovabb olvasni
     if (szavak.at(1) == "0")
     {
-        //TODO Hosttol megkapni a beallitasokat
+        
 
         HOST = 0;
-        //
+        //if multiplayer,receive the coordinates from the host
         MapHeigth = stoi(recvMessage());
         cout << "MapHeigth:" << MapHeigth << endl;
         MapWidth = stoi(recvMessage());
@@ -62,10 +60,6 @@ void startGame()
         cout << "NrBattleship:" << NrBattleship << endl;
         NrAircraftCarrier = stoi(recvMessage());
         cout << "NrAircraftCarrier:" << NrAircraftCarrier << endl;
-        IP = recvMessage();
-        cout << "IP:" << IP << endl;
-        PORT = stoi(recvMessage());
-        cout << "PORT:" << PORT << endl;
         AILevel = stoi(recvMessage());
         cout << "AI:" << AILevel << endl;
         //
@@ -79,7 +73,7 @@ void startGame()
         float ratio = shipRatio() * 10000;
         ratio = round(ratio);
         ratio /= 100;
-        cout << "Currens ship ratio: " << ratio << endl;
+        //cout << "Currens ship ratio: " << ratio << endl;
         if (ratio > 100 || ratio <= 0)
         {
             printError("Error there are no ships, or more ships than ocean");
@@ -101,6 +95,7 @@ void startGame()
             if (szavak.at(0) == "MapHeigth")
             {
                 MapHeigth = stoi(szavak.at(1));
+                //if multiplayer,than send out the settings to other player
                 if (multiplayer)
                 {
                     sendSetting(szavak.at(1));
@@ -152,25 +147,8 @@ void startGame()
                     Sleep(10);
                 }
             }
-            if (szavak.at(0) == "HOSTIP")
-            {
-                // IP = stoi(szavak.at(1));
-                IP = szavak.at(1);
-                if (multiplayer)
-                {
-                    sendSetting(szavak.at(1));
-                    Sleep(10);
-                }
-            }
-            if (szavak.at(0) == "Port")
-            {
-                PORT = stoi(szavak.at(1));
-                if (multiplayer)
-                {
-                    sendSetting(szavak.at(1));
-                    Sleep(10);
-                }
-            }
+            
+           
             if (szavak.at(0) == "AILevel")
             {
                 AILevel = stoi(szavak.at(1));

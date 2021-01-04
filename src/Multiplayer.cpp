@@ -44,17 +44,20 @@ string recvFromPlayer(SOCKET PlayerSocket, sockaddr_in Address)
 	string coordinates;
 
 	cout << "waiting for message" << endl;
+	//recvfrom waits for a message to arrive
 	result = recvfrom(PlayerSocket, message, messageLen, 0, (SOCKADDR*)&Address, &addressSize);
 
 	if (result == SOCKET_ERROR)
 	{
 		cout << "Hiba a fogadasnal a kovetkezo hibakoddal:\n" << WSAGetLastError();
 		closesocket(PlayerSocket);
+		WSACleanup();
 		return "";
 	}
 
 	message[result] = '\0';
 
+	//convert the char array message to a string
 	coordinates = CharArrayToString(message);
 
 	//cout << "Received message:" << coordinates;
@@ -62,6 +65,7 @@ string recvFromPlayer(SOCKET PlayerSocket, sockaddr_in Address)
 	if (result == 0)
 	{
 		cout << "A kapcsolat megszakadt.\n";
+		WSACleanup();
 		return "";
 	}
 
@@ -74,7 +78,6 @@ sockaddr_in createAddress()
 
 	Address.sin_family = AF_INET;
 	Address.sin_port = htons(13000);
-
 	inet_pton(AF_INET, "127.0.0.1", &Address.sin_addr);
 
 	return Address;
@@ -103,14 +106,12 @@ SOCKET bindPlayers(sockaddr_in Address)
 void sendToPlayer(sockaddr_in Address, string x, string y)
 {
 
-
 	int addressSize = sizeof(Address);
 	int result;
 	string fullString = x + "." + y;
 
-
+	//creating a char array and copy the string into it,sendto only works with char array
 	char* message = new char[fullString.length() + 1];
-
 	strcpy_s(message, fullString.length() + 1, fullString.c_str());
 
 	const int messageLen = strlen(message);
@@ -119,7 +120,7 @@ void sendToPlayer(sockaddr_in Address, string x, string y)
 
 	playerSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
-
+	//Send message to the address
 	result = sendto(playerSocket, message, messageLen, 0, (SOCKADDR*)&Address, addressSize);
 	if (result == SOCKET_ERROR)
 	{
@@ -142,8 +143,8 @@ void sendSettingToPlayer(sockaddr_in Address, string setting)
 	int addressSize = sizeof(Address);
 	int result;
 
+	//creating a char array and copy the string into it,sendto only works with char array
 	char* message = new char[setting.length() + 1];
-
 	strcpy_s(message, setting.length() + 1, setting.c_str());
 
 	const int messageLen = strlen(message);
@@ -152,7 +153,7 @@ void sendSettingToPlayer(sockaddr_in Address, string setting)
 
 	playerSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
-
+	//Send message to the address
 	result = sendto(playerSocket, message, messageLen, 0, (SOCKADDR*)&Address, addressSize);
 	if (result == SOCKET_ERROR)
 	{

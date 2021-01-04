@@ -47,14 +47,14 @@ int playerShootAI(BattleMap& Player, AI& ai)
 }
 
 //loop till the game ends
-//NOT DONE
+
 void MainLoop(BattleMap& Player, int HOST)
 {
-    printcolor("Game  rted", color_orange);
+    printcolor("Game  started", color_orange);
     int ret, i = 0;
     bool IShoot = false;
     //HOST get the firts shot
-    string x, y, message, temp,hitOrMiss,game;
+    string x, y, message, temp, hitOrMiss, game;
     string coordinate[2];
     if (HOST == 1) {
         IShoot = true;
@@ -66,10 +66,17 @@ void MainLoop(BattleMap& Player, int HOST)
         if (IShoot) {
             cout << "Type in the coordinates for target" << endl;
             cin >> x >> y;
-            //TODO send the coordinates to the other side
-            sendMessage(x, y);
-            //TODO wait for recv is hit/miss won
 
+            //check if the cordinates are corect
+            if (!checkNumber(x) || !checkNumber(y))
+            {
+                printError("Coordinate is not a number");
+                continue;
+            }
+            // send the coordinates to the other side
+            sendMessage(x, y);
+
+            // wait for recv is hit/miss won
             game = recvMessage();
             if (game == "You won")
             {
@@ -80,32 +87,38 @@ void MainLoop(BattleMap& Player, int HOST)
             hitOrMiss = recvMessage();
             if (hitOrMiss == "Hit")
             {
+                //shoot again
+                printcolor("HIT", color_green);
                 IShoot = !IShoot;
             }
-            //TODO SET own enemy map accordingly to result
+            else
+            {
+                printcolor("MISS", color_red);
+            }
+            // SET own enemy map accordingly to result
             Player.printMap(true);
-           // Player.printMap(false);
-            //TODO increase hit/miss accordilngly
+          //  Player.printMap(false);
 
-            //TODO if won
-            //EndGame();
+
         }//the other is in this part
         else {
-            //TODO recv coordinates
 
+            // recv coordinates
             message = recvMessage();
             //cout << message;
             stringstream coord(message);
 
+            //take out coordinates from the string
             while (getline(coord, temp, '.'))
             {
-                coordinate[i] = temp;  // koordinatak kinyerese az uzenetbol
+                coordinate[i] = temp;
                 i++;
             }
 
-            //ret = Player.Shoot(4,4);
+            //shoot at the coordinate
             ret = Player.Shoot(stoi(coordinate[0]), stoi(coordinate[1]));
 
+            //return hit/miss/won
             if (ret == 3)
             {
                 printcolor("OPONENT WON", color_orange);
@@ -129,12 +142,7 @@ void MainLoop(BattleMap& Player, int HOST)
             }
 
             Player.printMap(true);
-            // Player.printMap(false);
-
-             //TODO return hit/miss/won
-
-             //TODO if won
-             //EndGame();
+            //Player.printMap(false);
         }
         //Change roles
         IShoot = !IShoot;
@@ -196,7 +204,7 @@ void EndGame()
     }
     else
     { //leave the game
-        //TODO tell the other side I left
+
         cout << "GOODBYE" << endl;
         exit(0);
     }
